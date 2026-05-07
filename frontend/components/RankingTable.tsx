@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { StateScore, scoreBgClass } from '@/lib/api';
+import { StateScore, scoreStyle } from '@/lib/api';
 import ComingSoonBadge from './ComingSoonBadge';
 import { ArrowUpDown } from 'lucide-react';
 
@@ -103,7 +103,7 @@ export default function RankingTable({ states, highlightUF, limit }: RankingTabl
                   </Link>
                 </td>
                 <td className="px-4 py-3 whitespace-nowrap">
-                  <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${scoreBgClass(state.score_total)}`}>
+                  <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium" style={scoreStyle(state.score_total)}>
                     {state.score_total.toFixed(1)}
                   </span>
                 </td>
@@ -114,7 +114,7 @@ export default function RankingTable({ states, highlightUF, limit }: RankingTabl
                       {score === null ? (
                         <span className="text-gray-400 text-sm">—</span>
                       ) : (
-                        <span className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium ${scoreBgClass(score)}`}>
+                        <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium" style={scoreStyle(score)}>
                           {score.toFixed(1)}
                         </span>
                       )}

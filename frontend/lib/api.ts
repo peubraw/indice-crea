@@ -56,6 +56,15 @@ export function scoreBgClass(score: number | null): string {
   return 'bg-score-critico text-white';
 }
 
+export function scoreStyle(score: number | null): { backgroundColor: string; color: string } {
+  if (score === null) return { backgroundColor: '#e5e7eb', color: '#374151' };
+  if (score >= 75) return { backgroundColor: '#168821', color: '#ffffff' };
+  if (score >= 60) return { backgroundColor: '#2670E8', color: '#ffffff' };
+  if (score >= 45) return { backgroundColor: '#FFCD07', color: '#1c1c1c' };
+  if (score >= 30) return { backgroundColor: '#E52207', color: '#ffffff' };
+  return { backgroundColor: '#cc0000', color: '#ffffff' };
+}
+
 const getBaseUrl = () => {
   if (typeof window !== 'undefined') {
     return process.env.NEXT_PUBLIC_API_URL || '/crea/api';
