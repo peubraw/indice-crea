@@ -1,0 +1,55 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: indicecrea-postgres
+    restart: unless-stopped
+    ports: []
+    volumes:
+      - indicecrea_postgres:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: indicecrea
+      POSTGRES_PASSWORD: indicecrea2026
+      POSTGRES_DB: indicecrea
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U indicecrea -d indicecrea"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    image: ghcr.io/peubraw/indice-crea-backend:latest
+    container_name: indicecrea-backend
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:8002:8000"
+    environment:
+      DATABASE_URL: postgresql://indicecrea:indicecrea2026@postgres:5432/indicecrea
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  frontend:
+    image: ghcr.io/peubraw/indice-crea-frontend:latest
+    container_name: indicecrea-frontend
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:3004:3000"
+    environment:
+      BACKEND_URL: http://indicecrea-backend:8000
+      NEXT_PUBLIC_API_URL: /crea/api
+      HOSTNAME: 0.0.0.0
+    depends_on:
+      - backend
+
+  pipeline:
+    image: ghcr.io/peubraw/indice-crea-pipeline:latest
+    container_name: indicecrea-pipeline
+    restart: "no"
+    environment:
+      DATABASE_URL: postgresql://indicecrea:indicecrea2026@postgres:5432/indicecrea
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+volumes:
+  indicecrea_postgres:
