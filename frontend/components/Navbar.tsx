@@ -51,7 +51,7 @@ export default function Navbar() {
 
             <div className="hidden md:flex items-center">
               <a 
-                href="https://creahub.com.br" 
+                href="https://oportunidades.crea-rn.org.br" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="ml-4 px-4 py-2 border border-gov-accent rounded text-sm font-medium text-white hover:bg-gov-accent transition-colors"

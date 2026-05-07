@@ -1,9 +1,9 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { StateScore, scoreColor } from '@/lib/api';
-const pathsData = require('../lib/brazil-map.json') as Record<string, string>;
+import pathsData from '../lib/brazil-map.json';
 
 interface BrazilMapProps {
   states: StateScore[];
