@@ -9,6 +9,8 @@ interface BrazilMapProps {
   states: StateScore[];
 }
 
+type MapEntry = { path: string; cx?: number; cy?: number } | string;
+
 export default function BrazilMap({ states }: BrazilMapProps) {
   const router = useRouter();
   const [hoveredState, setHoveredState] = useState<StateScore | null>(null);
@@ -22,17 +24,22 @@ export default function BrazilMap({ states }: BrazilMapProps) {
     return states.find(s => s.uf === uf) || null;
   };
 
+  const getPath = (entry: MapEntry): string => {
+    if (typeof entry === 'string') return entry;
+    return entry.path;
+  };
+
   return (
     <div className="relative w-full max-w-3xl mx-auto" onMouseMove={handleMouseMove}>
       <svg viewBox="0 0 1000 1000" className="w-full h-auto drop-shadow-md">
-        {Object.entries(pathsData).map(([uf, path]) => {
+        {Object.entries(pathsData as Record<string, MapEntry>).map(([uf, entry]) => {
           const stateData = getStateData(uf);
           const color = stateData ? scoreColor(stateData.score_total) : '#e5e7eb';
           
           return (
             <path
               key={uf}
-              d={path as string}
+              d={getPath(entry)}
               fill={color}
               stroke="#ffffff"
               strokeWidth="2"
